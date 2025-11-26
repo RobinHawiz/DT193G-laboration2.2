@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "tsc && vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "db:init": "tsx install.ts"
   },
   "browserslist": [
     ">=0.5%",
