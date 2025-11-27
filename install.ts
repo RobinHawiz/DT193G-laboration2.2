@@ -1,7 +1,7 @@
 // Load environment variables
-import "./config/env";
+import "./src/config/env.js";
 
-import DatabaseConstructor, { type Database } from "better-sqlite3";
+import DatabaseConstructor, { Database } from "better-sqlite3";
 
 let db: Database | undefined;
 
