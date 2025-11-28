@@ -1,5 +1,5 @@
 import { diContainer } from "@fastify/awilix";
-import { FastifyInstance, FastifyRequest } from "fastify";
+import { FastifyInstance } from "fastify";
 import { bookIdParamSchema } from "@schemas/book.js";
 import { BookController } from "@controllers/book.js";
 
@@ -19,10 +19,10 @@ export class DefaultBookRoutes implements BookRoutes {
       this.controller.getAllBooks(reply);
     });
 
-    app.get(
+    app.get<{ Params: { id: string } }>(
       "/api/books/:id",
       bookIdParamSchema,
-      (request: FastifyRequest<{ Params: { id: string } }>, reply) => {
+      (request, reply) => {
         this.controller.getOneBook(request, reply);
       }
     );
