@@ -20,10 +20,7 @@ export class DefaultBookController implements BookController {
   getAllBooks(reply: FastifyReply) {
     try {
       const books = this.service.getAllBooks();
-      reply
-        .code(200)
-        .header("Content-Type", "application/json; charset=utf-8")
-        .send(books);
+      reply.send(books);
     } catch (err) {
       console.error("Error retrieving book data:", err);
       reply.code(500).send({ ok: false });
