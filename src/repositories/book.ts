@@ -15,13 +15,12 @@ export class SQLiteBookRepository implements BookRepository {
   }
 
   findAllBooks(): Array<BookEntity> {
-    const rows = this.db
+    return this.db
       .prepare(
         `select id, title, published_year as publishedYear, is_read as isRead from book 
          order by id ASC`
       )
       .all() as Array<BookEntity>;
-    return rows;
   }
 
   findOneBook(id: string) {
