@@ -4,6 +4,7 @@ import { BookRepository } from "@repositories/book.js";
 
 export interface BookService {
   getAllBooks(): Array<BookEntity>;
+  getOneBook(id: string): BookEntity;
 }
 
 export class DefaultBookService implements BookService {
@@ -15,5 +16,13 @@ export class DefaultBookService implements BookService {
 
   getAllBooks() {
     return this.repo.findAllBooks();
+  }
+
+  getOneBook(id: string) {
+    const book = this.repo.findOneBook(id);
+    if (!book) {
+      throw new Error(`Book not found`);
+    }
+    return book;
   }
 }
