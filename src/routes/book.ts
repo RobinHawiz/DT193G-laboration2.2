@@ -15,12 +15,8 @@ export class DefaultBookRoutes implements BookRoutes {
   }
 
   initRoutes(app: FastifyInstance) {
-    app.route({
-      method: "GET",
-      url: "/api/books",
-      handler: (_, reply) => {
-        this.controller.getAllBooks(reply);
-      },
+    app.get("/api/books", (_, reply) => {
+      this.controller.getAllBooks(reply);
     });
 
     app.get(
