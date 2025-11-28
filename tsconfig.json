@@ -7,6 +7,17 @@
     "skipLibCheck": true,
     "outDir": "dist",
 
+    /* Aliases */
+    "baseUrl": "./",
+    "paths": {
+      "@config/*": ["src/config/*"],
+      "@models/*": ["src/models/*"],
+      "@routes/*": ["src/routes/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@services/*": ["src/services/*"],
+      "@repositories/*": ["src/repositories/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
