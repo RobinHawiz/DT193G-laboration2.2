@@ -5,3 +5,5 @@ export type BookEntity = {
   // 0 === false, 1 === true
   isRead: 0 | 1;
 };
+
+export type BookPayload = Omit<BookEntity, "id">;

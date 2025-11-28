@@ -1,6 +1,7 @@
 import { diContainer } from "@fastify/awilix";
 import { FastifyInstance } from "fastify";
-import { bookIdParamSchema } from "@schemas/book.js";
+import { bookIdParamSchema, bookPayloadSchema } from "@schemas/book.js";
+import { BookPayload } from "@models/book.js";
 import { BookController } from "@controllers/book.js";
 
 export interface BookRoutes {
@@ -24,6 +25,18 @@ export class DefaultBookRoutes implements BookRoutes {
       bookIdParamSchema,
       (request, reply) => {
         this.controller.getOneBook(request, reply);
+      }
+    );
+
+    app.post<{ Body: BookPayload }>(
+      "/api/books",
+      {
+        schema: {
+          body: bookPayloadSchema,
+        },
+      },
+      (request, reply) => {
+        this.controller.insertBook(request, reply);
       }
     );
   }

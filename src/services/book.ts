@@ -1,10 +1,11 @@
 import { diContainer } from "@fastify/awilix";
-import { BookEntity } from "@models/book.js";
+import { BookEntity, BookPayload } from "@models/book.js";
 import { BookRepository } from "@repositories/book.js";
 
 export interface BookService {
   getAllBooks(): Array<BookEntity>;
   getOneBook(id: string): BookEntity;
+  insertBook(bookPayload: BookPayload): number | bigint;
 }
 
 export class DefaultBookService implements BookService {
@@ -24,5 +25,9 @@ export class DefaultBookService implements BookService {
       throw new Error(`Book not found`);
     }
     return book;
+  }
+
+  insertBook(payload: BookPayload) {
+    return this.repo.insertBook(payload);
   }
 }

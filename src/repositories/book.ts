@@ -1,10 +1,11 @@
 import { diContainer } from "@fastify/awilix";
 import { Database } from "better-sqlite3";
-import { BookEntity } from "@models/book.js";
+import { BookEntity, BookPayload } from "@models/book.js";
 
 export interface BookRepository {
   findAllBooks(): Array<BookEntity>;
   findOneBook(id: string): BookEntity;
+  insertBook(payload: BookPayload): number | bigint;
 }
 
 export class SQLiteBookRepository implements BookRepository {
@@ -30,6 +31,20 @@ export class SQLiteBookRepository implements BookRepository {
           `select id, title, published_year as publishedYear, is_read as isRead from book where id = @id`
         )
         .get({ id }) as BookEntity;
+    } catch (error) {
+      console.error("Database lookup error:", error);
+      throw error;
+    }
+  }
+
+  insertBook(payload: BookPayload) {
+    try {
+      return this.db
+        .prepare(
+          `insert into book (title, published_year, is_read)
+                      values(@title, @publishedYear, @isRead)`
+        )
+        .run(payload).lastInsertRowid;
     } catch (error) {
       console.error("Database lookup error:", error);
       throw error;
