@@ -1,6 +1,6 @@
 import { diContainer } from "@fastify/awilix";
 import { FastifyInstance, FastifyRequest } from "fastify";
-import { bookIdParamSchema } from "src/schemas/book.js";
+import { bookIdParamSchema } from "@schemas/book.js";
 import { BookController } from "@controllers/book.js";
 
 export interface BookRoutes {
