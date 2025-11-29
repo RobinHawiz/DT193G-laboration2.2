@@ -30,10 +30,16 @@ export class DefaultBookService implements BookService {
   }
 
   insertBook(payload: BookPayload) {
+    if (payload.publishedYear > new Date().getFullYear()) {
+      throw new DomainError(`publishedYear must be ≤ the current year`);
+    }
     return this.repo.insertBook(payload);
   }
 
   updateBook(id: string, payload: BookPayload) {
+    if (payload.publishedYear > new Date().getFullYear()) {
+      throw new DomainError(`publishedYear must be ≤ the current year`);
+    }
     const changes = this.repo.updateBook(id, payload);
     if (changes === 0) {
       throw new DomainError(`Book not found`);
