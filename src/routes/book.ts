@@ -43,5 +43,18 @@ export class DefaultBookRoutes implements BookRoutes {
         this.controller.insertBook(request, reply);
       }
     );
+
+    app.put<{ Params: { id: string }; Body: BookPayload }>(
+      "/api/books/:id",
+      {
+        schema: {
+          params: bookIdParamSchema,
+          body: bookPayloadSchema,
+        },
+      },
+      (request, reply) => {
+        this.controller.updateBook(request, reply);
+      }
+    );
   }
 }

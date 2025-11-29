@@ -6,6 +6,7 @@ export interface BookRepository {
   findAllBooks(): Array<BookEntity>;
   findOneBook(id: string): BookEntity;
   insertBook(payload: BookPayload): number | bigint;
+  updateBook(id: string, payload: BookPayload): void;
 }
 
 export class SQLiteBookRepository implements BookRepository {
@@ -52,6 +53,21 @@ export class SQLiteBookRepository implements BookRepository {
         .run(payload).lastInsertRowid;
     } catch (error) {
       console.error("Database insert error:", error);
+      throw error;
+    }
+  }
+
+  updateBook(id: string, payload: BookPayload) {
+    try {
+      this.db
+        .prepare(
+          `update book
+           set title = @title, published_year = @publishedYear, is_read = @isRead
+           where id = @id`
+        )
+        .run({ id, ...payload });
+    } catch (error) {
+      console.error("Database update error:", error);
       throw error;
     }
   }

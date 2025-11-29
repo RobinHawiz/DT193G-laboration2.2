@@ -6,6 +6,7 @@ export interface BookService {
   getAllBooks(): Array<BookEntity>;
   getOneBook(id: string): BookEntity;
   insertBook(bookPayload: BookPayload): number | bigint;
+  updateBook(id: string, payload: BookPayload): void;
 }
 
 export class DefaultBookService implements BookService {
@@ -29,5 +30,12 @@ export class DefaultBookService implements BookService {
 
   insertBook(payload: BookPayload) {
     return this.repo.insertBook(payload);
+  }
+
+  updateBook(id: string, payload: BookPayload) {
+    if (!this.repo.findOneBook(id)) {
+      throw new Error(`Book not found`);
+    }
+    this.repo.updateBook(id, payload);
   }
 }

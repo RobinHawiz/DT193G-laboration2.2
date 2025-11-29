@@ -13,6 +13,10 @@ export interface BookController {
     request: FastifyRequest<{ Body: BookPayload }>,
     reply: FastifyReply
   ): void;
+  updateBook(
+    request: FastifyRequest<{ Params: { id: string }; Body: BookPayload }>,
+    reply: FastifyReply
+  ): void;
 }
 
 export class DefaultBookController implements BookController {
@@ -64,6 +68,26 @@ export class DefaultBookController implements BookController {
         reply.code(400).send({ message: err.message });
       } else {
         console.error("Error inserting book data:", err);
+        reply.code(500).send({ ok: false });
+      }
+    }
+  }
+
+  updateBook(
+    request: FastifyRequest<{ Params: { id: string }; Body: BookPayload }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const { id } = request.params;
+      const payload = request.body;
+      this.service.updateBook(id, payload);
+      reply.code(204).send();
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error("Error updating book data:", err.message);
+        reply.code(400).send({ message: err.message });
+      } else {
+        console.error("Error updating book data:", err);
         reply.code(500).send({ ok: false });
       }
     }
