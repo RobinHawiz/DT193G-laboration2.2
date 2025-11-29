@@ -1,6 +1,7 @@
 import { diContainer } from "@fastify/awilix";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { BookPayload } from "@models/book.js";
+import { DomainError } from "@errors/domainError.js";
 import { BookService } from "@services/book.js";
 
 export interface BookController {
@@ -45,7 +46,7 @@ export class DefaultBookController implements BookController {
       const book = this.service.getOneBook(id);
       reply.code(200).send(book);
     } catch (err) {
-      if (err instanceof Error) {
+      if (err instanceof DomainError) {
         console.error("Error retrieving book data:", err.message);
         reply.code(404).send({ message: err.message });
       } else {
@@ -63,7 +64,7 @@ export class DefaultBookController implements BookController {
       const id = this.service.insertBook(request.body);
       reply.code(201).header("Location", `/api/books/${id}`).send();
     } catch (err) {
-      if (err instanceof Error) {
+      if (err instanceof DomainError) {
         console.error("Error inserting book data:", err.message);
         reply.code(400).send({ message: err.message });
       } else {
@@ -83,7 +84,7 @@ export class DefaultBookController implements BookController {
       this.service.updateBook(id, payload);
       reply.code(204).send();
     } catch (err) {
-      if (err instanceof Error) {
+      if (err instanceof DomainError) {
         console.error("Error updating book data:", err.message);
         reply.code(400).send({ message: err.message });
       } else {

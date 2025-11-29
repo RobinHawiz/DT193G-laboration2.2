@@ -1,5 +1,6 @@
 import { diContainer } from "@fastify/awilix";
 import { BookEntity, BookPayload } from "@models/book.js";
+import { DomainError } from "@errors/domainError.js";
 import { BookRepository } from "@repositories/book.js";
 
 export interface BookService {
@@ -23,7 +24,7 @@ export class DefaultBookService implements BookService {
   getOneBook(id: string) {
     const book = this.repo.findOneBook(id);
     if (!book) {
-      throw new Error(`Book not found`);
+      throw new DomainError(`Book not found`);
     }
     return book;
   }
@@ -35,7 +36,7 @@ export class DefaultBookService implements BookService {
   updateBook(id: string, payload: BookPayload) {
     const changes = this.repo.updateBook(id, payload);
     if (changes === 0) {
-      throw new Error(`Book not found`);
+      throw new DomainError(`Book not found`);
     }
   }
 }
