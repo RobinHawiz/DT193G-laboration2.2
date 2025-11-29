@@ -16,12 +16,17 @@ export class SQLiteBookRepository implements BookRepository {
   }
 
   findAllBooks(): Array<BookEntity> {
-    return this.db
-      .prepare(
-        `select id, title, published_year as publishedYear, is_read as isRead from book 
+    try {
+      return this.db
+        .prepare(
+          `select id, title, published_year as publishedYear, is_read as isRead from book 
          order by id ASC`
-      )
-      .all() as Array<BookEntity>;
+        )
+        .all() as Array<BookEntity>;
+    } catch (error) {
+      console.error("Database lookup error:", error);
+      throw error;
+    }
   }
 
   findOneBook(id: string) {
@@ -46,7 +51,7 @@ export class SQLiteBookRepository implements BookRepository {
         )
         .run(payload).lastInsertRowid;
     } catch (error) {
-      console.error("Database lookup error:", error);
+      console.error("Database insert error:", error);
       throw error;
     }
   }
