@@ -22,7 +22,11 @@ export class DefaultBookRoutes implements BookRoutes {
 
     app.get<{ Params: { id: string } }>(
       "/api/books/:id",
-      bookIdParamSchema,
+      {
+        schema: {
+          params: bookIdParamSchema,
+        },
+      },
       (request, reply) => {
         this.controller.getOneBook(request, reply);
       }

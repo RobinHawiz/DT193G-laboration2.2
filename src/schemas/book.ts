@@ -1,14 +1,12 @@
 import { JSONSchemaType } from "ajv";
 import { BookPayload } from "@models/book.js";
 
-export const bookIdParamSchema = {
-  schema: {
-    params: {
-      properties: {
-        id: { type: "integer", minimum: 1 },
-      },
-    },
+export const bookIdParamSchema: JSONSchemaType<{ id: number }> = {
+  type: "object",
+  properties: {
+    id: { type: "integer", minimum: 1 },
   },
+  required: ["id"],
 };
 
 export const bookPayloadSchema: JSONSchemaType<BookPayload> = {
