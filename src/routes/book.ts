@@ -56,5 +56,17 @@ export class DefaultBookRoutes implements BookRoutes {
         this.controller.updateBook(request, reply);
       }
     );
+
+    app.delete<{ Params: { id: string } }>(
+      "/api/books/:id",
+      {
+        schema: {
+          params: bookIdParamSchema,
+        },
+      },
+      (request, reply) => {
+        this.controller.deleteBook(request, reply);
+      }
+    );
   }
 }

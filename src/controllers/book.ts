@@ -18,6 +18,10 @@ export interface BookController {
     request: FastifyRequest<{ Params: { id: string }; Body: BookPayload }>,
     reply: FastifyReply
   ): void;
+  deleteBook(
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply
+  ): void;
 }
 
 export class DefaultBookController implements BookController {
@@ -89,6 +93,25 @@ export class DefaultBookController implements BookController {
         reply.code(400).send({ message: err.message });
       } else {
         console.error("Error updating book data:", err);
+        reply.code(500).send({ ok: false });
+      }
+    }
+  }
+
+  deleteBook(
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply
+  ) {
+    try {
+      const { id } = request.params;
+      this.service.deleteBook(id);
+      reply.code(204).send();
+    } catch (err) {
+      if (err instanceof DomainError) {
+        console.error("Error deleting book data:", err.message);
+        reply.code(400).send({ message: err.message });
+      } else {
+        console.error("Error deleting book data:", err);
         reply.code(500).send({ ok: false });
       }
     }

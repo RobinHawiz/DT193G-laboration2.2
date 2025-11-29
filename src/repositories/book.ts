@@ -7,6 +7,7 @@ export interface BookRepository {
   findOneBook(id: string): BookEntity;
   insertBook(payload: BookPayload): number | bigint;
   updateBook(id: string, payload: BookPayload): number;
+  deleteBook(id: string): number;
 }
 
 export class SQLiteBookRepository implements BookRepository {
@@ -68,6 +69,16 @@ export class SQLiteBookRepository implements BookRepository {
         .run({ id, ...payload }).changes;
     } catch (error) {
       console.error("Database update error:", error);
+      throw error;
+    }
+  }
+
+  deleteBook(id: string): number {
+    try {
+      return this.db.prepare(`delete from book where id = @id`).run({ id })
+        .changes;
+    } catch (error) {
+      console.error("Database deletion error:", error);
       throw error;
     }
   }

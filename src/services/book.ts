@@ -8,6 +8,7 @@ export interface BookService {
   getOneBook(id: string): BookEntity;
   insertBook(bookPayload: BookPayload): number | bigint;
   updateBook(id: string, payload: BookPayload): void;
+  deleteBook(id: string): void;
 }
 
 export class DefaultBookService implements BookService {
@@ -41,6 +42,13 @@ export class DefaultBookService implements BookService {
       throw new DomainError(`publishedYear must be ≤ the current year`);
     }
     const changes = this.repo.updateBook(id, payload);
+    if (changes === 0) {
+      throw new DomainError(`Book not found`);
+    }
+  }
+
+  deleteBook(id: string) {
+    const changes = this.repo.deleteBook(id);
     if (changes === 0) {
       throw new DomainError(`Book not found`);
     }
