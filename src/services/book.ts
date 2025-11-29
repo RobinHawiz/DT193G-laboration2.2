@@ -33,9 +33,9 @@ export class DefaultBookService implements BookService {
   }
 
   updateBook(id: string, payload: BookPayload) {
-    if (!this.repo.findOneBook(id)) {
+    const changes = this.repo.updateBook(id, payload);
+    if (changes === 0) {
       throw new Error(`Book not found`);
     }
-    this.repo.updateBook(id, payload);
   }
 }
