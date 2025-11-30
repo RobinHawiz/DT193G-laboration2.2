@@ -4,12 +4,14 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "postbuild": "cpx db/sqlite.db dist/db",
     "start": "tsx dist/server.js",
     "db:init": "tsx install.ts"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^24.10.0",
+    "cpx": "^1.5.0",
     "prettier": "^3.7.1",
     "tsx": "^4.20.6",
     "typescript": "~5.9.3"
