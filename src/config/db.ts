@@ -1,4 +1,9 @@
 import DatabaseConstructor, { Database } from "better-sqlite3";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * Connects to a SQLite database.
@@ -8,7 +13,11 @@ import DatabaseConstructor, { Database } from "better-sqlite3";
  */
 export default function connectToSQLiteDb(): Database {
   try {
-    const dbConnection = new DatabaseConstructor(process.env.DATABASE, {
+    const dbPath = process.env.DATABASE;
+    if (!dbPath) {
+      throw new Error("Failed to create db: Missing DATABASE in .env");
+    }
+    const dbConnection = new DatabaseConstructor(resolve(__dirname, dbPath), {
       verbose: console.log,
     });
     return dbConnection;
