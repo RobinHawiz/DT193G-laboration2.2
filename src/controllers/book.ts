@@ -5,19 +5,24 @@ import { DomainError } from "@errors/domainError.js";
 import { BookService } from "@services/book.js";
 
 export interface BookController {
+  /** GET /api/books → 200: returns all books */
   getAllBooks(reply: FastifyReply): void;
+  /** GET /api/books/:id → 200, 404 on missing */
   getOneBook(
     request: FastifyRequest<{ Params: { id: string } }>,
     reply: FastifyReply
   ): void;
+  /** POST /api/books → 201, 400 on domain rule violation */
   insertBook(
     request: FastifyRequest<{ Body: BookPayload }>,
     reply: FastifyReply
   ): void;
+  /** PUT /api/books/:id → 204, 400 on domain rule violation */
   updateBook(
     request: FastifyRequest<{ Params: { id: string }; Body: BookPayload }>,
     reply: FastifyReply
   ): void;
+  /** DELETE /api/books/:id → 204, 404 on missing */
   deleteBook(
     request: FastifyRequest<{ Params: { id: string } }>,
     reply: FastifyReply
@@ -65,6 +70,7 @@ export class DefaultBookController implements BookController {
     reply: FastifyReply
   ) {
     try {
+      console.log("wedwefdwefwfe: " + request.body.isRead);
       const id = this.service.insertBook(request.body);
       reply.code(201).header("Location", `/api/books/${id}`).send();
     } catch (err) {
@@ -109,7 +115,7 @@ export class DefaultBookController implements BookController {
     } catch (err) {
       if (err instanceof DomainError) {
         console.error("Error deleting book data:", err.message);
-        reply.code(400).send({ message: err.message });
+        reply.code(404).send({ message: err.message });
       } else {
         console.error("Error deleting book data:", err);
         reply.code(500).send({ ok: false });

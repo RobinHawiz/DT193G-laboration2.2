@@ -4,10 +4,15 @@ import { DomainError } from "@errors/domainError.js";
 import { BookRepository } from "@repositories/book.js";
 
 export interface BookService {
+  // Returns all books
   getAllBooks(): Array<BookEntity>;
+  // Returns one book or throws DomainError("Book not found")
   getOneBook(id: string): BookEntity;
+  // Inserts and returns a new id. Throws DomainError on invalid payload
   insertBook(bookPayload: BookPayload): number | bigint;
+  // Updates if exists. Otherwise throws DomainError on not found or invalid payload.
   updateBook(id: string, payload: BookPayload): void;
+  // Deletes if exists. Otherwise throws DomainError("Book not found")
   deleteBook(id: string): void;
 }
 

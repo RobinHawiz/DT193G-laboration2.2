@@ -8,6 +8,7 @@ import { DefaultBookController } from "@controllers/book.js";
 import { DefaultBookService } from "@services/book.js";
 import { SQLiteBookRepository } from "@repositories/book.js";
 
+// Bootstraps Fastify, registers DI, mounts routes.
 export default async function build() {
   // Instantiate and configure the framework
   const app = Fastify({
@@ -25,7 +26,7 @@ export default async function build() {
     bookRepo: awilix.asClass(SQLiteBookRepository).singleton(),
   });
 
-  // Mount book routes
+  // Mount routes
   const routes = new DefaultBookRoutes();
   routes.initRoutes(app);
 

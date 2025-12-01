@@ -16,10 +16,12 @@ export class DefaultBookRoutes implements BookRoutes {
   }
 
   initRoutes(app: FastifyInstance) {
+    // Fetches all available books
     app.get("/api/books", (_, reply) => {
       this.controller.getAllBooks(reply);
     });
 
+    // Fetches one book by a given id after validating the query parameter
     app.get<{ Params: { id: string } }>(
       "/api/books/:id",
       {
@@ -32,6 +34,7 @@ export class DefaultBookRoutes implements BookRoutes {
       }
     );
 
+    // Inserts a book after validating the request body
     app.post<{ Body: BookPayload }>(
       "/api/books",
       {
@@ -44,6 +47,7 @@ export class DefaultBookRoutes implements BookRoutes {
       }
     );
 
+    // Updates an existing book after validating the query parameter and request body
     app.put<{ Params: { id: string }; Body: BookPayload }>(
       "/api/books/:id",
       {
@@ -57,6 +61,7 @@ export class DefaultBookRoutes implements BookRoutes {
       }
     );
 
+    // Deletes an existing book
     app.delete<{ Params: { id: string } }>(
       "/api/books/:id",
       {

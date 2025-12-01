@@ -1,3 +1,4 @@
+// Represents a single book entry stored in a database
 export type BookEntity = {
   id: number;
   title: string;

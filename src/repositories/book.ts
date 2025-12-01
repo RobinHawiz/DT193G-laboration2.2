@@ -3,10 +3,15 @@ import { Database } from "better-sqlite3";
 import { BookEntity, BookPayload } from "@models/book.js";
 
 export interface BookRepository {
+  // Returns all books
   findAllBooks(): Array<BookEntity>;
+  // Returns one book
   findOneBook(id: string): BookEntity;
+  // Inserts a book and returns the id
   insertBook(payload: BookPayload): number | bigint;
+  // Updates an existing book and returns the amount of affected rows
   updateBook(id: string, payload: BookPayload): number;
+  // Deletes a book and returns the amount of affected rows
   deleteBook(id: string): number;
 }
 
