@@ -19,6 +19,7 @@ export default async function build() {
   // Configure CORS origin
   app.register(cors, {
     origin: process.env.CORS_ORIGINS ?? "*",
+    exposedHeaders: ["Location"],
   });
 
   // DI setup
