@@ -2,6 +2,7 @@ import "@config/env.js"; // Load environment variables
 import { diContainer } from "@fastify/awilix"; // DI
 import * as awilix from "awilix"; // DI
 import Fastify from "fastify";
+import cors from "@fastify/cors";
 import connectToSQLiteDb from "@config/db.js";
 import { DefaultBookRoutes } from "@routes/book.js";
 import { DefaultBookController } from "@controllers/book.js";
@@ -13,6 +14,11 @@ export default async function build() {
   // Instantiate and configure the framework
   const app = Fastify({
     logger: true,
+  });
+
+  // Configure CORS origin
+  app.register(cors, {
+    origin: process.env.CORS_ORIGINS ?? "*",
   });
 
   // DI setup
